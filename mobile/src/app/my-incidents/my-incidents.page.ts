@@ -8,12 +8,14 @@ import {CustomFilter} from '../entites/CustumFilter';
 import {Secteur} from '../entites/Secteur';
 import {Province} from '../entites/Province';
 import {Type} from '../entites/Type';
+import {Statut} from '../entites/Statut';
 import {LIST_SECTEUR} from '../utils/constants';
 import {IncidentService} from '../services/Incident.service';
 import {Map} from 'leaflet';
 import {Camera} from '@ionic-native/camera/ngx';
 import {ModalController} from '@ionic/angular';
 import {ModalpopupPage} from '../modalpopup/modalpopup.page';
+import {ModifymodalPage} from '../modifymodal/modifymodal.page';
 import {NgForm} from '@angular/forms';
 import {Device} from '@ionic-native/device/ngx';
 declare  let L;
@@ -33,7 +35,7 @@ export class MyIncidentsPage implements OnInit {
   ListIncident: any;
   idProvinceChoisi: any;
   selectedProvinceId: any = '';
-  idStatutChoisi: any;
+  idStatutChoisi: number;
   idSecteurChoisi: any;
   idTyprChoisi: any;
     selectedValue: any;
@@ -42,7 +44,7 @@ export class MyIncidentsPage implements OnInit {
     selectedSecteur1: any;
     SelectedType1: any;
     SelectedStatut1: any;
-    ime = '62d64d6309ff660f';
+    Myime =  this.device.uuid;
   constructor(private httpClient: HttpClient,
               private Secteurservice: SecteurService,
               // tslint:disable-next-line:no-shadowed-variable
@@ -57,13 +59,18 @@ export class MyIncidentsPage implements OnInit {
     this.CustumFilter.secteur = new Secteur();
     this.CustumFilter.province = new Province();
     this.CustumFilter.type = new Type();
+    this.CustumFilter.statut = new Statut();
     this.getSecteur();
 
     this.getProvince();
-    this.getIncident();
+    
     console.log(this.selectedProvinceId);
+    console.log('Device UUID is: ' + this.device.uuid);
   }
-
+  ionViewWillEnter() {
+    //window.location.reload();
+    this.getIncident();
+    }
   ngOnInit() {
       console.log(this.selectedProvinceId);
   }
@@ -71,6 +78,16 @@ export class MyIncidentsPage implements OnInit {
         console.log(item.id);
         const modal = await this.modalController.create({
             component: ModalpopupPage,
+            componentProps: {
+                id: item.id
+            }
+        });
+        return await modal.present();
+    }
+    async ModifyModal(item) {
+        console.log(item.id);
+        const modal = await this.modalController.create({
+            component: ModifymodalPage,
             componentProps: {
                 id: item.id
             }
@@ -104,19 +121,26 @@ export class MyIncidentsPage implements OnInit {
   }
 
  getIncident() {
-    this.incidentService.findByIme(this.ime).subscribe(
+    this.incidentService.findByIme(this.Myime).subscribe(
         data => {
           this.data = data;
           this.Incident = this.data;
           console.log("here");
           console.log( "dezda" + this.Incident);
           this.ListIncident = this.data;
-         
-          console.log('getIncident', this.ListIncident);
+          var ReverseArray = [];
+          var length = this.ListIncident.length;
+          for(var i = length-1;i>=0;i--){
+              ReverseArray.push(this.ListIncident[i]);
+          }
+          this.ListIncident = ReverseArray;
+          console.log('ReversergetIncident', this.ListIncident);
           this.incidentService.listIncidents.next(this.ListIncident);
         }
     );
   }
+
+
   do1(evt) {
      console.log(evt);
 
@@ -156,10 +180,13 @@ export class MyIncidentsPage implements OnInit {
     });
   }
   do4(evt) {
-    this.CustumFilter.statut = LIST_SECTEUR[evt.target.value];
-    this.idStatutChoisi = LIST_SECTEUR[evt.target.value];
+    this.CustumFilter.statut.id = this.idStatutChoisi;
+    //this.idStatutChoisi = LIST_SECTEUR[evt.target.value];
   }
+  setStatut(s){
+      console.log(s);
 
+  }
   FiltreIncident() {
     
     console.log(this.idTyprChoisi, this.idSecteurChoisi, this.idProvinceChoisi, this.idStatutChoisi);
@@ -169,6 +196,12 @@ export class MyIncidentsPage implements OnInit {
                 console.log(data);
                 this.data = data;
                 this.ListIncident = this.data;
+                var ReverseArray = [];
+                var length = this.ListIncident.length;
+                for(var i = length-1;i>=0;i--){
+                    ReverseArray.push(this.ListIncident[i]);
+                }
+                this.ListIncident = ReverseArray;
                 this.incidentService.listIncidents.next(this.ListIncident);
             }
         );
@@ -178,8 +211,14 @@ export class MyIncidentsPage implements OnInit {
                 data => {
                     this.data = data;
                     this.ListIncident = this.data;
+                    var ReverseArray = [];
+                    var length = this.ListIncident.length;
+                    for(var i = length-1;i>=0;i--){
+                        ReverseArray.push(this.ListIncident[i]);
+                    }
+                    this.ListIncident = ReverseArray;
                     this.incidentService.listIncidents.next(this.ListIncident);
-
+                    
                 }
             );
         }
@@ -188,8 +227,14 @@ export class MyIncidentsPage implements OnInit {
                 data => {
                     this.data = data;
                     this.ListIncident = this.data;
+                    var ReverseArray = [];
+                    var length = this.ListIncident.length;
+                    for(var i = length-1;i>=0;i--){
+                        ReverseArray.push(this.ListIncident[i]);
+                    }
+                    this.ListIncident = ReverseArray;
                     this.incidentService.listIncidents.next(this.ListIncident);
-
+                    
                 }
             );
         }
@@ -198,17 +243,33 @@ export class MyIncidentsPage implements OnInit {
             this.incidentService.findByProvince(this.idProvinceChoisi).subscribe(
                 data => {
                     this.data = data;
+                    console.log(data);
                     this.ListIncident = this.data;
+                    var ReverseArray = [];
+                    var length = this.ListIncident.length;
+                    for(var i = length-1;i>=0;i--){
+                        ReverseArray.push(this.ListIncident[i]);
+                    }
+                    this.ListIncident = ReverseArray;
                     this.incidentService.listIncidents.next(this.ListIncident);
-
+                    
+                    console.log(this.ListIncident);
                 }
             );
         }
         if (this.idStatutChoisi != undefined && this.idTyprChoisi == undefined && this.idSecteurChoisi == undefined && this.idProvinceChoisi == undefined ) {
-            this.incidentService.findByByStatut(this.idStatutChoisi).subscribe(
+            console.log(this.idStatutChoisi);
+            this.incidentService.findByStatut(this.idStatutChoisi).subscribe(
                 data => {
                     this.data = data;
                     this.ListIncident = this.data;
+                    var ReverseArray = [];
+                    var length = this.ListIncident.length;
+                    for(var i = length-1;i>=0;i--){
+                        ReverseArray.push(this.ListIncident[i]);
+                    }
+                    this.ListIncident = ReverseArray;
+                   
                     this.incidentService.listIncidents.next(this.ListIncident);
 
                 }
@@ -219,6 +280,13 @@ export class MyIncidentsPage implements OnInit {
                 data => {
                     this.data = data;
                     this.ListIncident = this.data;
+                    var ReverseArray = [];
+                    var length = this.ListIncident.length;
+                    for(var i = length-1;i>=0;i--){
+                        ReverseArray.push(this.ListIncident[i]);
+                    }
+                    this.ListIncident = ReverseArray;
+                    
                     this.incidentService.listIncidents.next(this.ListIncident);
 
                 }
@@ -230,6 +298,13 @@ export class MyIncidentsPage implements OnInit {
                 data => {
                     this.data = data;
                     this.ListIncident = this.data;
+                    var ReverseArray = [];
+                    var length = this.ListIncident.length;
+                    for(var i = length-1;i>=0;i--){
+                        ReverseArray.push(this.ListIncident[i]);
+                    }
+                    this.ListIncident = ReverseArray;
+                    
                     this.incidentService.listIncidents.next(this.ListIncident);
 
                 }
@@ -240,6 +315,13 @@ export class MyIncidentsPage implements OnInit {
                 data => {
                     this.data = data;
                     this.ListIncident = this.data;
+                    var ReverseArray = [];
+                    var length = this.ListIncident.length;
+                    for(var i = length-1;i>=0;i--){
+                        ReverseArray.push(this.ListIncident[i]);
+                    }
+                    this.ListIncident = ReverseArray;
+                   
                     this.incidentService.listIncidents.next(this.ListIncident);
                     console.log('oui', this.ListIncident);
                 }
@@ -251,7 +333,14 @@ export class MyIncidentsPage implements OnInit {
                 data => {
                     this.data = data;
                     this.ListIncident = this.data;
+                    var ReverseArray = [];
+                    var length = this.ListIncident.length;
+                    for(var i = length-1;i>=0;i--){
+                        ReverseArray.push(this.ListIncident[i]);
+                    }
+                    this.ListIncident = ReverseArray;
                     this.incidentService.listIncidents.next(this.ListIncident);
+                    
                     console.log('oui', this.ListIncident);
                 }
             );
@@ -262,7 +351,14 @@ export class MyIncidentsPage implements OnInit {
                 data => {
                     this.data = data;
                     this.ListIncident = this.data;
+                    var ReverseArray = [];
+                    var length = this.ListIncident.length;
+                    for(var i = length-1;i>=0;i--){
+                        ReverseArray.push(this.ListIncident[i]);
+                    }
+                    this.ListIncident = ReverseArray;
                     this.incidentService.listIncidents.next(this.ListIncident);
+                    
                     console.log('oui', this.ListIncident);
                 }
             );
@@ -272,7 +368,14 @@ export class MyIncidentsPage implements OnInit {
                 data => {
                     this.data = data;
                     this.ListIncident = this.data;
+                    var ReverseArray = [];
+                    var length = this.ListIncident.length;
+                    for(var i = length-1;i>=0;i--){
+                        ReverseArray.push(this.ListIncident[i]);
+                    }
+                    this.ListIncident = ReverseArray;
                     this.incidentService.listIncidents.next(this.ListIncident);
+                    
                     console.log('oui', this.ListIncident);
                 }
             );
@@ -283,7 +386,13 @@ export class MyIncidentsPage implements OnInit {
                 data => {
                     this.data = data;
                     this.ListIncident = this.data;
-
+                    var ReverseArray = [];
+                    var length = this.ListIncident.length;
+                    for(var i = length-1;i>=0;i--){
+                        ReverseArray.push(this.ListIncident[i]);
+                    }
+                    this.ListIncident = ReverseArray;
+                    this.incidentService.listIncidents.next(this.ListIncident);
                     console.log('oui', this.ListIncident);
 
                 }
@@ -294,8 +403,15 @@ export class MyIncidentsPage implements OnInit {
                 data => {
                     this.data = data;
                     this.ListIncident = this.data;
+                    var ReverseArray = [];
+                    var length = this.ListIncident.length;
+                    for(var i = length-1;i>=0;i--){
+                        ReverseArray.push(this.ListIncident[i]);
+                    }
+                    this.ListIncident = ReverseArray;
                     this.incidentService.listIncidents.next(this.ListIncident);
                     console.log('oui', this.ListIncident);
+                    
                 }
             );
         }
@@ -328,6 +444,12 @@ export class MyIncidentsPage implements OnInit {
         this.idProvinceChoisi = undefined ;
         this.idStatutChoisi = undefined;
         this.ListIncident = this.Incident;
+        var ReverseArray = [];
+        var length = this.ListIncident.length;
+        for(var i = length-1;i>=0;i--){
+            ReverseArray.push(this.ListIncident[i]);
+        }
+        this.ListIncident = ReverseArray;
         this.incidentService.listIncidents.next(this.ListIncident);
         this.selectedProvinceId = '';
         this.selectedProvince = '';

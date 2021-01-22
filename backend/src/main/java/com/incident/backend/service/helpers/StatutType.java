@@ -1,24 +1,25 @@
 package com.incident.backend.service.helpers;
 
 import com.incident.backend.entity.Type;
+import com.incident.backend.entity.Etat;
 
 public class StatutType {
-    private String statut;
+    private Etat statut;
     private Type type;
 
     public StatutType() {
     }
 
-    public StatutType(String statut, Type type) {
+    public StatutType(Etat statut, Type type) {
         this.statut = statut;
         this.type = type;
     }
 
-    public String getStatut() {
+    public Etat getStatut() {
         return statut;
     }
 
-    public void setStatut(String statut) {
+    public void setStatut(Etat statut) {
         this.statut = statut;
     }
 

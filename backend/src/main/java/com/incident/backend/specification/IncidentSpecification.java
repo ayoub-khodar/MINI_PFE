@@ -11,7 +11,7 @@ import com.incident.backend.entity.Incident;
 import com.incident.backend.entity.Province;
 import com.incident.backend.entity.Secteur;
 import com.incident.backend.entity.Type;
-
+import com.incident.backend.entity.Etat;
 
 public class IncidentSpecification {
 
@@ -20,7 +20,7 @@ public class IncidentSpecification {
             case "secteur" :
                 return secteurEqual((Secteur) value);
             case "statut" :
-                return statutEqual((String) value);
+                return statutEqual((Etat) value);
             case "type":
                 return typeEqual((Type) value);
             case "province":
@@ -43,7 +43,7 @@ public class IncidentSpecification {
         };
     }
 
-    public static Specification<Incident> statutEqual(String statut) {
+    public static Specification<Incident> statutEqual(Etat statut) {
         return new Specification<Incident>() {
             @Override
             public Predicate toPredicate(Root<Incident> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {

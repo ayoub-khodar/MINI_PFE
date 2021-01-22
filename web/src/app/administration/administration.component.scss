@@ -6,3 +6,82 @@
   width: 100px;
   height: 80px;
 }
+
+.image1{
+  width: 100%;
+  height: 40%;
+}
+
+#map {
+  position: fixed;
+    right: 28.5%;
+    height: 73%;
+    width: 24%;
+    margin-bottom: 31%;
+    padding: 8%;
+    border-width: 3px;
+    border-style: outset;
+    border-color: white;
+    border-radius: 10px;
+
+}
+.card{
+  position: fixed;
+  right: 56.5%;
+  height: 74%;
+  width: 20%;
+  /* margin-bottom: 5%; */
+  padding: 2%;
+  border-width: 3px;
+  border-style: outset;
+  border-color: #0e0d0d;
+  border-radius: 10px;
+
+}
+.card2{
+  position: fixed;
+  right: 4.5%;
+  height: 74%;
+  width: 20%;
+  margin-bottom: 31%;
+  padding: 2%;
+  border-width: 3px;
+  border-style: outset;
+  border-color: rgb(14, 13, 13);
+  border-radius: 10px;
+
+}
+.panel-primary{
+  margin-right: 6% !important;
+  margin-left: 6% !important;
+}
+
+.panel-primary > .panel-heading {
+  color: #fff;
+  background-color: #20B2AA;
+  border-color: #337ab7;
+}
+.monBoutton1 {
+  background-color:#20B2AA;
+  Color:white;
+  font-weight: bold;
+  padding: 10px 40px;
+  border-radius: 3px;
+  cursor: pointer; 
+  left: 1%;
+  position: relative;
+  text-decoration: none;
+  }
+  .monBoutton {
+    background-color:#20B2AA;
+    Color:white;
+    font-weight: bold;
+    padding: 10px 40px;
+    border-radius: 3px;
+    left: -49%;
+    cursor: pointer; 
+    box-shadow: 0 8px 16px 0 grey;
+    text-decoration: none;
+    }
+
+    

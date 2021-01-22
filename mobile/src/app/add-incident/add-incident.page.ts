@@ -13,8 +13,8 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import {AlertController} from '@ionic/angular';
 import { Device } from '@ionic-native/device/ngx';
 import {ProvinceService} from '../services/province.service';
-import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
-
+import {Base64} from '@ionic-native/base64/ngx';
+import { NavController } from '@ionic/angular';
 @Component({
   selector: 'app-add-incident',
   templateUrl: './add-incident.page.html',
@@ -22,14 +22,15 @@ import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 })
 
 export class AddIncidentPage implements OnInit {
+  private win: any = window;
   Incident: Incident;
   ListSecteur: any;
   ListType: any;
   data: any;
   inci: Incident;
-
+  
     title = 'ImageUploaderFrontEnd';
-
+    
     public selectedFile;
     public event1;
     imgURL: any;
@@ -45,13 +46,14 @@ export class AddIncidentPage implements OnInit {
     latitude: any;
     description: any;
     photo: any;
-  constructor(private http: HttpClient,
+  constructor( private base64:Base64,
+              private http: HttpClient,
               private Secteurservice: SecteurService,
               // tslint:disable-next-line:no-shadowed-variable
               private Typeservice: TypeService, private Geolocation: Geolocation, private  IncidentService: IncidentService,
               private camera: Camera, private alertCtrl: AlertController,
               private provinceService: ProvinceService,
-              private uniqueDeviceID: UniqueDeviceID,
+              private navController : NavController,
               private device: Device
             ) {
     this.Incident = new Incident();
@@ -60,10 +62,12 @@ export class AddIncidentPage implements OnInit {
     this.Incident.province = new Province();
     this.inci = new Incident();
     this.getSecteur();
-    this.getProvince();
+    
+    //this.getProvince();
   }
 
   ngOnInit() {}
+
   getSecteur() {
     this.Secteurservice.findAllSecteur().subscribe(
         data => {this.ListSecteur = data;
@@ -79,9 +83,10 @@ export class AddIncidentPage implements OnInit {
     );
   }
   getProvince() {
-      this.provinceService.findAll().subscribe(
+      this.provinceService.RetrieveProvince(this.Incident.longitude,this.Incident.latitude).subscribe(
           data => {
-              this.listProvince = data;
+              this.Incident.province=<any>data
+              
           }
       );
   }
@@ -124,11 +129,18 @@ export class AddIncidentPage implements OnInit {
     this.Geolocation.getCurrentPosition().then(resp => {
       this.Incident.latitude = resp.coords.latitude;
       this.Incident.longitude = resp.coords.longitude;
+      this.getProvince();
 
     });
   }
+
+  
   public async  TakePicture() {
+
     this.location();
+    //get province name/id
+    
+    
     const option1: CameraOptions = {
       quality: 50,
       destinationType: this.camera.DestinationType.FILE_URI,
@@ -173,7 +185,20 @@ export class AddIncidentPage implements OnInit {
     this.camera.getPicture(params).then(
         data => {
           const base64Image = 'data:image/jpeg;base64,' + data;
-          this.Incident.photo = base64Image;
+          
+          this.base64.encodeFile(data).then((base64File: string) => {
+            console.log(base64File);
+            //base64Image = base64Image + base64File;
+            this.Incident.photo=base64File;
+            //this.showAlert(this.file2base64);
+           // alert(base64File);
+          
+          }, (err) => {
+            console.log(err);
+          });
+          //this.Incident.photo = base64Image;
+          //this.win.Ionic.WebView.convertFileSrc(data);
+          this.photo=data;
 
         }
     );
@@ -210,15 +235,14 @@ export class AddIncidentPage implements OnInit {
 
     }*/
     addIncident() {
-      this.Incident.province.id=4;
-      this.Incident.province.province="Laayoune";
-
         this.Incident.ime = this.device.uuid;
         console.log('Device UUID is: ' + this.device.uuid);
         this.http.post(API_URL + '/Incident/add', this.Incident).subscribe(
         data => {
           console.log(data);
+          alert("Image ajoutée avec succées");
         }
+      
     );
     }
     AnnulerIncident() {
@@ -239,7 +263,8 @@ export class AddIncidentPage implements OnInit {
         this.longitude = null;
         this.latitude = null;
         this.description = null;
-
+        this.navController.navigateRoot(['/menu/filter/my-incidents']);
+        
 
     }
 

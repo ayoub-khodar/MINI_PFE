@@ -1,25 +1,26 @@
 package com.incident.backend.service.helpers;
 
 import com.incident.backend.entity.Province;
+import com.incident.backend.entity.Etat;
 
 public class StatutProvince {
 
-    private String statut;
+    private Etat statut;
     private Province province;
 
     public StatutProvince() {
     }
 
-    public StatutProvince(String statut, Province province) {
-        this.statut = statut;
+    public StatutProvince(Etat etat, Province province) {
+        this.statut = etat;
         this.province = province;
     }
 
-    public String getStatut() {
+    public Etat getStatut() {
         return statut;
     }
 
-    public void setStatut(String statut) {
+    public void setStatut(Etat statut) {
         this.statut = statut;
     }
 

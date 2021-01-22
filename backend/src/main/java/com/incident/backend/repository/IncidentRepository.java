@@ -10,12 +10,12 @@ import com.incident.backend.entity.Incident;
 import com.incident.backend.entity.Province;
 import com.incident.backend.entity.Secteur;
 import com.incident.backend.entity.Type;
-
+import com.incident.backend.entity.Etat;
 
 public interface IncidentRepository extends JpaRepository<Incident,Long>, JpaSpecificationExecutor<Incident> {
     public Incident findById(long Id);
     public List<Incident> findBySecteur(Secteur secteur);
-    List<Incident> findByStatut(String statut);
+    List<Incident> findByStatut(Etat etat);
     List<Incident> findByProvince(Province province);
     List<Incident> findByType(Type type);
     List<Incident> findByime(String ime);
@@ -25,7 +25,7 @@ public interface IncidentRepository extends JpaRepository<Incident,Long>, JpaSpe
 
     @Query("select i.province.province,count(*) from Incident i  join Province p  on i.province.id = p.id group by i.province.province")
     List  findIncidentsProv();
-    @Query("select statut, count(*) from Incident group by statut")
+    @Query("select i.statut.statut,count(*) from Incident i  join Etat e  on i.statut.id = e.id group by i.statut.statut")
     List  findIncidentsStatut();
     @Query("select i.type.type,count(*) from Incident i  join Type t  on i.type.id = t.id group by i.type.type")
     List  findIncidentsType();

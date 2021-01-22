@@ -2,10 +2,10 @@ package com.incident.backend.service.helpers;
 
 import com.incident.backend.entity.Secteur;
 import com.incident.backend.entity.Type;
-
+import com.incident.backend.entity.Etat;
 public class StatutSecteurType {
     private Secteur secteur;
-    private String statut;
+    private Etat statut;
     private Type type;
 
     public StatutSecteurType() {
@@ -19,11 +19,11 @@ public class StatutSecteurType {
         this.secteur = secteur;
     }
 
-    public String getStatut() {
+    public Etat getStatut() {
         return statut;
     }
 
-    public void setStatut(String statut) {
+    public void setStatut(Etat statut) {
         this.statut = statut;
     }
 
@@ -35,7 +35,7 @@ public class StatutSecteurType {
         this.type = type;
     }
 
-    public StatutSecteurType(Secteur secteur, String statut, Type type) {
+    public StatutSecteurType(Secteur secteur, Etat statut, Type type) {
         this.secteur = secteur;
         this.statut = statut;
         this.type = type;

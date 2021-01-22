@@ -10,6 +10,7 @@ import com.incident.backend.entity.Incident;
 import com.incident.backend.entity.Province;
 import com.incident.backend.entity.Secteur;
 import com.incident.backend.entity.Type;
+import com.incident.backend.entity.Etat;
 import com.incident.backend.repository.IncidentRepository;
 import com.incident.backend.service.IncidentService;
 import com.incident.backend.service.helpers.Filter;
@@ -117,8 +118,8 @@ public class IncidentServiceImpl implements IncidentService {
     }
 
     @Override
-    public List<Incident> findByStatut(String statut) {
-        return incidentRepository.findByStatut(statut);
+    public List<Incident> findByStatut(Etat etat) {
+        return incidentRepository.findByStatut(etat);
     }
     @Override
     public List<Incident> findByProvince(Province province ) {

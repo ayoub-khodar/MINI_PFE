@@ -58,13 +58,37 @@
       margin-right:8px;
   }
 }
-.pay_div{
+.modify_btn{
   display:flex;
   justify-content: left;
   margin: 10px 0px 10px 0px;
-  margin-left:25%;
+  margin-left:45%;
   margin-right: 0%;
   margin-bottom: 20px;
+  margin-top: 10px;
+  ion-button{
+      // text-transform: capitalize;
+      font-weight: 300;
+      --background:#09aacc;
+      --border-radius:7px;
+      --box-shadow:none;
+  }
+  ion-icon{
+      margin-left:2px;
+      margin-right:8px;
+  }
+}
+.pay_div{
+  //display:flex;
+  //justify-content: left;
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px 10px 10px 10px;
+  margin-bottom: 0px;
+  //margin: 10px 0px 10px 0px;
+ // margin-left:25%;
+  //margin-right: 0%;
+  //margin-bottom: 20px;
   ion-button{
       // text-transform: capitalize;
       font-weight: 300;
@@ -79,6 +103,6 @@
 }
 .image_style{
   width:100%;
-  height:100%;
+  height:100px;
   margin-top: 0%;
 }

@@ -21,4 +21,8 @@ export class LoginService {
   login(userInfos) {
     return this.http.post(this.url, userInfos);
   }
+
+  logout(callback){
+    return callback && callback();
+  }
 }

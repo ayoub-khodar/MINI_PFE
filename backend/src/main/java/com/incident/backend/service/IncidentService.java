@@ -5,6 +5,7 @@ import java.util.List;
 import com.incident.backend.entity.Incident;
 import com.incident.backend.entity.Province;
 import com.incident.backend.entity.Secteur;
+import com.incident.backend.entity.Etat;
 import com.incident.backend.entity.Type;
 import com.incident.backend.service.helpers.Filter;
 import com.incident.backend.service.helpers.IncidentInfos;
@@ -23,7 +24,7 @@ public interface IncidentService {
     public List<Incident> findAll() ;
     public  Incident findByID(long id );
     public List<Incident> findBySecteur(Secteur secteur);
-    List<Incident> findByStatut(String statut);
+    List<Incident> findByStatut(Etat etat);
     List<Incident> findByProvince(Province province);
     List<Incident> findByType(Type type);
     List<Incident> findByQuery(String field, Object value);

@@ -1,0 +1,175 @@
+
+<div class="row body">
+
+    <app-sidebar> </app-sidebar>
+  </div>
+  <div style="padding-left: 210px; padding-top: 100px;">
+  
+  <div style="padding-left: 210px;">
+  <br>  </div>
+  <p></p>
+  
+ 
+  <ng-template #template1>
+    <div class="modal-header">
+      <button type="button" class="close pull-right" area-label="'close" (click)="modalRef.hide()">
+        <span area-hidden="true">&times;</span>
+      </button>
+  
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formData">
+        <label style="text-align: center">Login  :</label>
+        <input type="text"  required class="form-control"  formControlName="fullname" placeholder="fullname"
+               [(ngModel)]="item.fullname" >
+        <p></p>
+        <label style="text-align: center">Mot de passe  :</label>
+        <input type="text"  required class="form-control"  formControlName="password" placeholder="password"
+               [(ngModel)]="item.password" >
+        <p></p>
+        <label style="text-align: center"> organisme :</label>
+        <input type="text"  id="organisme1" class="form-control"  formControlName="organisme" placeholder="organisme" [(ngModel)]="item.organisme">
+  
+        <p></p>
+        <label style="text-align: center"> email :</label>
+        <input type="text"  id="email1" class="form-control"  formControlName="email" placeholder="email" [(ngModel)]="item.email">
+  
+        <p></p>
+        <label style="text-align: center"> telephone :</label>
+        <input type="text"  id="telephone1" class="form-control"  formControlName="telephone" placeholder="telephone" [(ngModel)]="item.telephone">
+  
+        <p></p>
+        <label style="margin:1px ;">Secteur : </label>
+        <select   name="Secteur"   (change)="do2($event)"  class="form-control"  >
+          <option  [value]=null  > Selectionner un secteur </option>
+          <option  *ngFor="let s of ListSecteur" [value]="s.id">{{s.secteur}}</option>
+  
+        </select>
+        <p></p>
+        <button type="submit"   class="btn btn-default" (click)="update()"> Valider  </button>
+  
+  
+      </form>
+  
+    </div>
+  
+  </ng-template>
+  
+  <!-- <div class="container">
+      <div class="panel-body">
+  
+        <table class="table table-condensed table-hover">
+          <thead>
+          <tr>
+            <th scope="col" > Nom  </th>
+            <th scope="col"> Organisme </th>
+            <th scope="col" > E-mail </th>
+            <th scope="col" > Mot de passe </th>
+            <th scope="col" > Telephone  </th>
+            <th scope="col" > Secteur </th>
+  
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor = "let item of listProf">
+            <td scope="row">{{ item.fullname }}</td>
+            <td scope="row">{{ item.organisme }}</td>
+            <td scope="row">{{ item.email }}</td>
+            <td scope="row">{{ item.password }}</td>
+            <td scope="row">{{ item.telephone }}</td>
+            <td scope="row">{{ item.secteurUser.secteur }}</td>
+            <button type="submit" class="monBoutton1" (click)="openModal1(template1,item)">editer</button>
+  
+  
+          </tr>
+          </tbody>
+        </table>
+      </div>
+  
+  
+    </div> -->
+    <div class="container emp-profile">
+      <form method="post">
+          <div class="row">
+              <div class="col-md-4" *ngFor = "let item of listProf">
+                  <div class="profile-img">
+                      <img class="prof-image" src="https://www.lansweeper.com/wp-content/uploads/2018/05/ASSET-USER-ADMIN.png" alt=""/>
+                      
+                  </div>
+              </div>
+              <div class="col-md-6">
+                  <div class="profile-head" *ngFor = "let item of listProf">
+                              <h4>
+                                {{ item.username }}
+                              </h4>
+
+                              <h5> Professionnel chez TABLIGH </h5>
+                              <br>
+                      <ul class="nav nav-tabs" id="myTab" role="tablist">
+                          <li class="nav-item">
+                              <a class="nav-link active" id="home-tab" data-toggle="tab"  role="tab" aria-controls="home" aria-selected="true">About</a>
+                          </li>
+                      </ul>
+                  </div>
+              </div>
+            
+          </div>
+          <div class="row">
+              <div class="col-md-4">
+                 
+              </div>
+              <div class="col-md-8">
+                  <div  >
+                      <div *ngFor = "let item of listProf" >
+                                  <div class="row" >
+                                      <div class="col-md-6">
+                                          <label>Name</label>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <p>{{ item.fullname }}</p>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                          <label>Organisme</label>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <p>{{ item.organisme }}</p>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                          <label>Email</label>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <p>{{ item.email }}</p>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                          <label>Phone</label>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <p>{{ item.telephone }}</p>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-6">
+                                          <label>Secteur</label>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <p>{{ item.secteurUser.secteur }}</p>
+                                      </div>
+                                  </div>
+                                  <br>
+
+                                  <div class="col-md-2">
+                                    <button type="submit" class="monBoutton1" (click)="openModal1(template1,item)">editer</button>
+                                  </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </form>           
+  </div>
+  </div>

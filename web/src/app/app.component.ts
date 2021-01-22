@@ -1,10 +1,12 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import {LoginService} from './services/Login.service';
+import {UserService} from './services/UserService';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {LoginDtoData} from './Security/Component/shared/data/login-dto.data';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {User} from './entities/User';
 import {IncidentService} from './services/Incident.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -31,8 +33,8 @@ export class AppComponent implements OnInit {
   currentUser: User;
   message: string;
   IdUserChoisi: any;
-  constructor(private loginService: LoginService, private modalService: BsModalService,
-              private formBuilder: FormBuilder , private incidentService: IncidentService) {
+  constructor(private loginService: LoginService, private modalService: BsModalService,private router: Router,
+              private formBuilder: FormBuilder ,private userService: UserService, private incidentService: IncidentService) {
     this.comportement = 'Se connecter ';
     this.loginService.currentUser.subscribe((newUser) => {
       this.currentRole = newUser ? newUser.role.role : null;
@@ -46,6 +48,13 @@ export class AppComponent implements OnInit {
       this.currentUser = newUser;
     });
   }
+  logout(){
+    this.loginService.logout(()=>{
+      
+      window.location.href = 'http://localhost:4200/acceuil' ;
+      //this.router.navigateByUrl('/acceuil');
+    });
+  }
   openModel(template: TemplateRef<any>) {
     if (this.comportement == 'Se connecter ') {
       this.modalRef = this.modalService.show(template);
@@ -56,9 +65,11 @@ export class AppComponent implements OnInit {
       this.currentUser = null;
       this.currentRole = null;
       this.comportement = 'Se connecter ';
+      this.logout();
       this.test = '';
     }
   }
+  
   onlogin() {
     if (this.comportement == 'Se connecter ') {
       // console.log(this.currentUser);
@@ -66,6 +77,7 @@ export class AppComponent implements OnInit {
       const data: LoginDtoData = new LoginDtoData();
       data.username = this.formData.get('username').value;
       data.password = this.formData.get('password').value;
+      this.router.navigateByUrl('/acceuil');
       // console.log(data);
       this.loginService.login(data).subscribe(res => {
         if (res) {
@@ -76,13 +88,17 @@ export class AppComponent implements OnInit {
 
           this.modalRef.hide();
           this.comportement = 'Se deconnecter ';
-          this.test = ' Salut  ' + this.currentUser.fullname;
+          this.test = ' Bonjour  ' + this.currentUser.fullname;
 
         } else {
            this.message = ' ! username ou password est errone';
         }
       });
 
+    }
+    if (this.comportement == 'Se deconnecter ') {
+      this.logout();
+      //this.router.navigate(['/home'])
     }
 
 

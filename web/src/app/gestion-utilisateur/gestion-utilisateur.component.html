@@ -1,3 +1,9 @@
+<div class="row body">
+
+  <app-sidebar> </app-sidebar>
+</div>
+<div style="padding-left: 210px; padding-top: 100px;">
+
 <div style="padding-left: 210px;">
 <br>
   <button class="monBoutton"
@@ -15,17 +21,17 @@
   <p></p>
   <div class="modal-body">
     <form [formGroup]="formData">
-      <label style="text-align: center" >Username :</label>
+      <label style="text-align: center" >Login :</label>
       <input type="text" required id="username"  class="form-control" formControlName="username"
              placeholder="username" [(ngModel)]="user.username" (change)="checkUsername($event)" >
       <label style="text-align: center;color: red" >{{errusername}}</label>
       <p></p>
-      <label style="text-align: center">Password :</label>
+      <label style="text-align: center">Mot de passe :</label>
       <input type="password" required id="password" class="form-control"  formControlName="password" placeholder="password"
              [(ngModel)]="user.password" (change)="checkPassword($event)">
       <label style="text-align: center;color: red" >{{errpassword}}</label>
       <p></p>
-      <label style="text-align: center">Full Name  :</label>
+      <label style="text-align: center">Nom complet  :</label>
       <input type="text"  required class="form-control"  formControlName="fullname" placeholder="fullname"
              [(ngModel)]="user.fullname" (change)="checkFullname($event)">
       <label style="text-align: center;color: red" >{{errfullname}}</label>
@@ -43,7 +49,7 @@
 
       <p></p>
       <label style="margin:1px ;">Secteur :</label>
-      <select   name="Secteur" (change)="do2($event)" >
+      <select   name="Secteur" (change)="do2($event)" class="form-control">
         <option  [value]=null  >Selectionner un secteur </option>
         <option  *ngFor="let s of ListSecteur" [value]="s.id">{{s.secteur}}</option>
 
@@ -65,17 +71,7 @@
   </div>
   <div class="modal-body">
     <form [formGroup]="formData">
-      <label style="text-align: center" >Username :</label>
-      <input type="text" required id="username1"  class="form-control" formControlName="username"
-             placeholder="username" [(ngModel)]="item.username" (change)="checkUsername1($event)" >
-      <label style="text-align: center;color: red" >{{errusername}}</label>
-      <p></p>
-      <label style="text-align: center">Password :</label>
-      <input type="password" required id="password1" class="form-control"  formControlName="password" placeholder="password"
-             [(ngModel)]="item.password" >
-      <label style="text-align: center;color: red" >{{errpassword}}</label>
-      <p></p>
-      <label style="text-align: center">Full Name  :</label>
+      <label style="text-align: center">Nom complet  :</label>
       <input type="text"  required class="form-control"  formControlName="fullname" placeholder="fullname"
              [(ngModel)]="item.fullname" >
       <label style="text-align: center;color: red" >{{errfullname}}</label>
@@ -93,7 +89,7 @@
 
       <p></p>
       <label style="margin:1px ;">Secteur : </label>
-      <select   name="Secteur"   (change)="do2($event)"   >
+      <select   name="Secteur"   (change)="do2($event)"  class="form-control"  >
         <option  [value]=null  > Selectionner un secteur </option>
         <option  *ngFor="let s of ListSecteur" [value]="s.id">{{s.secteur}}</option>
 
@@ -111,11 +107,12 @@
 <div class="container">
   <div class="panel panel-primary">
     <div class="panel-heading">
-      Liste des Professionnels
+      <h5>Liste des Professionnels</h5>
+      
     </div>
     <div class="panel-body">
 
-      <table class="table table-condensed">
+      <table class="table table-condensed table-hover">
         <thead>
         <tr>
           <th scope="col" > Nom  </th>
@@ -127,20 +124,24 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let item of listProf">
+        <tr *ngFor = "let item of listProf">
           <td scope="row">{{ item.fullname }}</td>
           <td scope="row">{{ item.organisme }}</td>
           <td scope="row">{{ item.email }}</td>
           <td scope="row">{{ item.telephone }}</td>
           <td scope="row">{{ item.secteurUser.secteur }}</td>
-          <button type="submit" class="btn btn-success" (click)="openModal1(template1,item)">editer</button>
+          <button type="submit" class="monBoutton1" (click)="openModal1(template1,item)">editer</button>
 
 
         </tr>
         </tbody>
       </table>
+      <!-- <div>
+        <pagination-controls id="listing_pagination" maxSize="5" directionLinks="true" (pageChange)="page = $event"></pagination-controls>
+      </div> -->
     </div>
 
 
   </div>
+</div>
 </div>

@@ -1,12 +1,22 @@
 
+<div class="row body">
 
-<h1 style="text-align: center">Statistiques</h1>
+  <app-sidebar> </app-sidebar>
+</div>
+<div style="    padding-left: 17%; padding-right: 3%; padding-top: 3%;">
+<!-- <h1 style="text-align: center">Statistiques</h1> -->
 
 <br>
+<div [hidden] = "isShow">
 
-<div class="row">
-  <div class="col">
-    <div class="chart-wrapper">
+<div  class="row">
+  <div   class="col">
+    <div  class="chart-wrapper">
+      <button mat-icon-button class="button1">
+        <mat-icon aria-hidden="false"  (click) = toggleDisplay1()>
+          open_in_new</mat-icon>
+      </button>
+     
       <canvas baseChart
               [datasets]="barChartData"
               [labels]="barChartLabels"
@@ -17,8 +27,12 @@
       </canvas>
     </div>
   </div>
-  <div class="col">
+  <div  class="col">
     <div class="chart-wrapper">
+      <button mat-icon-button class="button2">
+      <mat-icon aria-hidden="false" (click) = toggleDisplay2()
+      >open_in_new</mat-icon>
+    </button>
       <canvas baseChart
               [datasets]="ProvChartData"
               [labels]="ProvChartLabels"
@@ -30,21 +44,14 @@
     </div>
   </div>
 </div>
-  <div class="row">
-    <div class="col">
+  <div  class="row">
+
+    <div  class="col">
       <div class="chart-wrapper">
-        <canvas baseChart
-                [datasets]="StatutChartData"
-                [labels]="StatutChartLabels"
-                [chartType]="StatutbarChartType"
-                [options]="StatutChartOptions"
-                [plugins]="StatutChartPlugins"
-                [legend]="StatutChartLegend">
-        </canvas>
-      </div>
-    </div>
-    <div class="col">
-      <div class="chart-wrapper">
+        <button mat-icon-button class="button3">
+          <mat-icon aria-hidden="false" (click) = toggleDisplay3()
+          >open_in_new</mat-icon>
+        </button>
         <canvas baseChart
                 [datasets]="TypeChartData"
                 [labels]="TypeChartLabels"
@@ -55,9 +62,90 @@
         </canvas>
       </div>
     </div>
+
+
+    <div class="col">
+      <div class="chart-wrapper">
+        <button mat-icon-button class="button4">
+          <mat-icon aria-hidden="false" (click) = toggleDisplay4()
+          >open_in_new</mat-icon>
+        </button>
+        <canvas baseChart
+                [datasets]="StatutChartData"
+                [labels]="StatutChartLabels"
+                [chartType]="StatutbarChartType"
+                [options]="StatutChartOptions"
+                [plugins]="StatutChartPlugins"
+                [legend]="StatutChartLegend">
+        </canvas>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+  <!--  big screen   -->
+
+  <div  [hidden] = "!isShow1" class="chart-wrapper">
+    <button mat-icon-button class="button">
+      <mat-icon aria-hidden="false" (click) = toggleDisplay1()
+      >arrow_back</mat-icon>
+    </button>
+    <canvas baseChart
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [plugins]="barChartPlugins"
+            [legend]="barChartLegend"
+            [chartType]="barChartType">
+    </canvas>
   </div>
 
+  <div [hidden] = "!isShow2" class="chart-wrapper">
+    <button mat-icon-button class="button">
+      <mat-icon aria-hidden="false" (click) = toggleDisplay2()
+      >arrow_back</mat-icon>
+    </button>
+    <canvas baseChart
+            [datasets]="ProvChartData"
+            [labels]="ProvChartLabels"
+            [chartType]="ProvbarChartType"
+            [options]="ProvChartOptions"
+            [plugins]="ProvChartPlugins"
+            [legend]="ProvChartLegend">
+    </canvas>
+  </div>
 
+  <div [hidden] = "!isShow3" class="chart-wrapper">
+    <button mat-icon-button class="button">
+      <mat-icon aria-hidden="false" (click) = toggleDisplay3()
+      >arrow_back</mat-icon>
+    </button>
+    <canvas baseChart
+            [datasets]="TypeChartData"
+            [labels]="TypeChartLabels"
+            [chartType]="TypebarChartType"
+            [options]="TypeChartOptions"
+            [plugins]="TypeChartPlugins"
+            [legend]="TypeChartLegend">
+    </canvas>
+  </div>
+  <div [hidden] = "!isShow4" class="chart-wrapper">
+    <button mat-icon-button class="button">
+      <mat-icon aria-hidden="false" (click) = toggleDisplay4()
+      >arrow_back</mat-icon>
+    </button>
+    <canvas baseChart
+            [datasets]="StatutChartData"
+            [labels]="StatutChartLabels"
+            [chartType]="StatutbarChartType"
+            [options]="StatutChartOptions"
+            [plugins]="StatutChartPlugins"
+            [legend]="StatutChartLegend">
+    </canvas>
+  </div>
+
+</div>
 
 
 

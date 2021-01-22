@@ -28,4 +28,7 @@ export class UserService {
   {
     return this.http.get(API_URL + '/user/find/'+ id);
   }
+  logout(callback){
+    return callback && callback();
+  }
 }

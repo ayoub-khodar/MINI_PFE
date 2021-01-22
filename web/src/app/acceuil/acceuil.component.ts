@@ -10,8 +10,8 @@ export class AcceuilComponent implements OnInit {
   
   public contact = {
 
-    logo: 'assets/Images/ali.jpg',
-    location: 'assets/Images/ali.jpg'
+    //logo: 'assets/Images/Capture.PNG',
+   // location: 'assets/Images/Capture.PNG'
 
   };
   constructor() { }

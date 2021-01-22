@@ -1,7 +1,7 @@
 
 import {Province} from './Province';
-
+import {Statut} from './Statut';
 export class StatutProvince {
-    statut: string;
+    statut: Statut;
     province: Province;
 }

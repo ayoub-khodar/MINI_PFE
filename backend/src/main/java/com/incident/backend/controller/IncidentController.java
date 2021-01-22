@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -21,11 +23,13 @@ import com.incident.backend.entity.Incident;
 import com.incident.backend.entity.Province;
 import com.incident.backend.entity.Secteur;
 import com.incident.backend.entity.Type;
+import com.incident.backend.repository.IncidentRepository;
 import com.incident.backend.entity.Etat;
 import com.incident.backend.service.IncidentService;
 import com.incident.backend.service.ProvinceService;
 import com.incident.backend.service.SecteurService;
 import com.incident.backend.service.TypeService;
+import com.incident.backend.service.EtatService;
 import com.incident.backend.service.helpers.Filter;
 import com.incident.backend.service.helpers.IncidentInfos;
 import com.incident.backend.service.helpers.ProvinceType;
@@ -48,6 +52,9 @@ public class IncidentController {
     private SecteurService secteurService;
     @Autowired
     private TypeService typeService;
+    @Autowired
+    private EtatService etatService;
+    
     @Autowired
     private ProvinceService provinceService;
     @PostMapping(value = "/query")
@@ -93,6 +100,7 @@ public class IncidentController {
     }
     @PostMapping(value = "/querystatutProvince")
     public List<Incident> queryer(@RequestBody StatutProvince statutProvince ) {
+    	System.out.println(statutProvince);
         List<Incident> result = incidentService.findByStatutProv(statutProvince);
         return result;
     }
@@ -111,7 +119,7 @@ public class IncidentController {
     @PostMapping(value = "/findBySecQuery")
     public List<Incident> findBySec(@RequestParam("field") String field,
                                     @RequestBody Secteur value) {
-        System.out.println("waaait");
+        
         return incidentService.findByQuery(field, value);
     }
 
@@ -146,9 +154,10 @@ public class IncidentController {
         Province province=provinceService.findByID(id);
         return incidentService.findByProvince(province);
     }
-    @GetMapping(value = "/find/Statut/{statut}")
-    public List<Incident> findByStatut(@PathVariable String statut) {
-        return incidentService.findByStatut(statut);
+    @GetMapping(value = "/find/Statut/{id}")
+    public List<Incident> findByStatut(@PathVariable long id) {
+    	Etat etat= etatService.findByID(id);
+        return incidentService.findByStatut(etat);
     }
     @GetMapping(value = "/find/UserId/{id}")
     public List findByUserId(@PathVariable long id) {
@@ -161,10 +170,10 @@ public class IncidentController {
     public void save(@RequestBody   Incident incident){
         Calendar cal = Calendar.getInstance();
         Date date=cal.getTime();
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
         String formattedDate=dateFormat.format(date);
         incident.setDate(date);
-        Etat s = new Etat(1,"Déposée");
+        Etat s = new Etat(6,"declaré");
         incident.setStatut(s);
          //incidentService.getGeometry();
         incidentService.save(incident);
@@ -199,5 +208,14 @@ public class IncidentController {
     public List findIncidentsType () {
         return incidentService.findIncidentsType();
     }
+    
+    
+    @Autowired
+    private IncidentRepository incidentRepository;
+  //10 premiers
+    @GetMapping(value = "/list")
+	Page<Incident> incidentsPageable(Pageable pageable) {
+		return incidentRepository.findAll(pageable);
+	}
 
 }

@@ -7,6 +7,25 @@
     color: #000000;
     font-size: medium;
   }
+  .card{
+    position: fixed;
+    right: 5.5%;
+    height: 65%;
+    width: 18%;
+    padding: 2%;
+    border-width: 3px;
+    border-style: outset;
+    border-color: #0e0d0d;
+    border-radius: 10px;
+  
+  }
+  .pipi{
+    right: 62.5%;
+  }
+  .image1[_ngcontent-nkh-c1] {
+    width: 98%;
+    height: 36%;
+}
 #map {
     position: fixed;
     right: 5.5%;
@@ -16,7 +35,7 @@
     padding: 8%;
     border-width: 3px;
     border-style: outset;
-    border-color: gray;
+    border-color: rgb(255, 255, 255);
     border-radius: 10px;
   
   }
@@ -73,7 +92,19 @@
     position: relative;
     text-decoration: none;
     }
-  
+    .monBoutton2 {
+      background-color: #3e4a49;
+    Color: white;
+    position: relative;
+    /* padding-left: 11%; */
+    font-weight: bold;
+    padding: 10px 39px;
+    border-radius: 3px;
+    left: 4%;
+    cursor: pointer;
+    box-shadow: 0 8px 16px 0 grey;
+    text-decoration: none;
+      }
   
   //LISTE DES INCIDENTS ..................................
   .countainer-table{
@@ -121,3 +152,7 @@
   table.cinereousTable tfoot td {
    // font-size: 16px;
   }
+
+.image{
+    cursor: pointer;
+}

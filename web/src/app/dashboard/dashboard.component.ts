@@ -6,6 +6,7 @@ import { SingleDataSet, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip } fr
 import { IncidentService } from '../services/Incident.service';
 import { SecteurService } from '../services/Secteur.service';
 import { HttpClient } from '@angular/common/http';
+//import 'chartjs-plugin-datalabels';
 import * as Highcharts from 'highcharts';
 
 @Component({
@@ -26,12 +27,20 @@ sect_statistique: any;
   statut_statistique:any;
   LabelsStatut=[];
   ValuesStatut=[];
+  div1:boolean=true;
+  div2:boolean=true;
+  div3:boolean=true;
+  div4:boolean=true;
   constructor(private IncidentService: IncidentService, private SecteurService: SecteurService,
               private http: HttpClient) {
+                
     this.http.get('http://localhost:9090/Incident/secteur/Statistique').subscribe(
       data => {
         this.sect_statistique = data;
+
+        console.log(this.sect_statistique.length);
         for (let i = 0; i < this.sect_statistique.length; i++) {
+          console.log(this.sect_statistique[i][0]);
           this.Labels.push(this.sect_statistique[i][0]);
           this.Values.push(this.sect_statistique[i][1]);
 
@@ -55,8 +64,66 @@ sect_statistique: any;
         this.statut_statistique = data;
         for (let i = 0; i < this.statut_statistique.length; i++) {
 
-          this.LabelsStatut.push(this.statut_statistique[i][0]);
-          this.ValuesStatut.push(this.statut_statistique[i][1]);
+          if(this.statut_statistique[i][0]=="declaré"){
+            this.LabelsStatut.push(this.statut_statistique[i][0]);
+            this.ValuesStatut.push(this.statut_statistique[i][1]);
+          }
+                
+         
+          
+        }
+        for (let i = 0; i < this.statut_statistique.length; i++) {
+
+          if(this.statut_statistique[i][0]=="rejeté"){
+            this.LabelsStatut.push(this.statut_statistique[i][0]);
+            this.ValuesStatut.push(this.statut_statistique[i][1]);
+          }
+          
+
+        }
+        for (let i = 0; i < this.statut_statistique.length; i++) {
+
+          if(this.statut_statistique[i][0]=="validé"){
+            this.LabelsStatut.push(this.statut_statistique[i][0]);
+            this.ValuesStatut.push(this.statut_statistique[i][1]);
+          }
+          
+
+        }
+        for (let i = 0; i < this.statut_statistique.length; i++) {
+
+          if(this.statut_statistique[i][0]=="En cours de traitement"){
+            this.LabelsStatut.push(this.statut_statistique[i][0]);
+            this.ValuesStatut.push(this.statut_statistique[i][1]);
+          }
+          
+
+        }
+        for (let i = 0; i < this.statut_statistique.length; i++) {
+
+          if(this.statut_statistique[i][0]=="Traité"){
+            this.LabelsStatut.push(this.statut_statistique[i][0]);
+            this.ValuesStatut.push(this.statut_statistique[i][1]);
+          }
+          
+
+        }
+        for (let i = 0; i < this.statut_statistique.length; i++) {
+
+          if(this.statut_statistique[i][0]=="redirigé"){
+            this.LabelsStatut.push(this.statut_statistique[i][0]);
+            this.ValuesStatut.push(this.statut_statistique[i][1]);
+          }
+          
+
+        }
+        for (let i = 0; i < this.statut_statistique.length; i++) {
+
+          if(this.statut_statistique[i][0]=="Bloqué"){
+            this.LabelsStatut.push(this.statut_statistique[i][0]);
+            this.ValuesStatut.push(this.statut_statistique[i][1]);
+          }
+          
 
         }
       }
@@ -65,6 +132,7 @@ sect_statistique: any;
       data => {
         this.type_statistique = data;
         for (let i = 0; i < this.type_statistique.length; i++) {
+          console.log(this.type_statistique[i][0]);
 
           this.LabelsType.push(this.type_statistique[i][0]);
           this.ValuesType.push(this.type_statistique[i][1]);
@@ -73,64 +141,107 @@ sect_statistique: any;
       }
     );
 
+    
+
 
     // pie chart
     monkeyPatchChartJsTooltip();
     monkeyPatchChartJsLegend();
    }
-  // pie Chart
-  public pieChartOptions: ChartOptions = {
-    responsive: true,
-  };
-  public pieChartLabels: Label[] = this.LabelsProv;
-  public pieChartData: SingleDataSet = this.ValuesProv;
-  public pieChartType: ChartType = 'pie';
-  public pieChartLegend = true;
-  public pieChartPlugins = [];
+
 
 
 // secteur
   barChartOptions: ChartOptions = {
     responsive: true,
+    
+      plugins: {
+        datalabels: {
+          render: 'secteur',
+          display: true,
+          align: 'bottom',
+          backgroundColor: '#ccc',
+          borderRadius: 3,
+          font: {
+            size: 18,
+          }
+        },
+      }
+    
   };
+ 
   barChartLabels: Label[] = this.Labels;
-  barChartType: ChartType = 'bar';
+  barChartType: ChartType = 'radar';
   barChartLegend = true;
-  barChartPlugins = [];
+  barChartPlugins = {
+  };
+  
 
   barChartData: ChartDataSets[] = [
-    { data: this.Values, label: 'Nombre d incidents par secteur' }
+    { data: this.Values, label: 'Nombre d incidents par secteur',
+    backgroundColor: ["blue","grey","green","#FBD72B","cornflowerblue","orange","red","purple","black"], }
   ];
+  
 
 // province
   ProvChartOptions: ChartOptions = {
+    
     responsive: true,
+    scales: {
+      yAxes: [{
+          ticks: {
+              suggestedMin: 0,
+              suggestedMax: this.Labels.length +4,
+          }
+      }]
+  } 
   };
   ProvChartLabels: Label[] = this.LabelsProv;
   ProvbarChartType: ChartType = 'bar';
   ProvChartLegend = true;
   ProvChartPlugins = [];
+  //color = [red];
 
   ProvChartData: ChartDataSets[] = [
     {
-      data: this.ValuesProv, label: 'Nombre d incidents par province' }
+      data: this.ValuesProv, label: 'Nombre d incidents par province',
+      backgroundColor: "#3e95cd", }
   ];
 // statut
   StatutChartOptions: ChartOptions = {
     responsive: true,
+    scales: {
+      yAxes: [{
+          ticks: {
+              suggestedMin: 0,
+              suggestedMax: this.Labels.length +4,
+          }
+      }]
+  }
   };
   StatutChartLabels: Label[] = this.LabelsStatut;
   StatutbarChartType: ChartType = 'bar';
+  
   StatutChartLegend = true;
   StatutChartPlugins = [];
+  
 
   StatutChartData: ChartDataSets[] = [
     {
-      data: this.ValuesStatut, label: 'Nombre d incidents par statut' }
+      data: this.ValuesStatut, label: 'Nombre d incidents par statut',
+      backgroundColor: ["blue","grey","green","#FBD72B","cornflowerblue","orange","red"], }
   ];
   // type
   TypeChartOptions: ChartOptions = {
     responsive: true,
+    scales: {
+      yAxes: [{
+          ticks: {
+              suggestedMin: 0,
+              suggestedMax: this.Labels.length +4,
+          }
+      }]
+  }
   };
   TypeChartLabels: Label[] = this.LabelsType;
   TypebarChartType: ChartType = 'bar';
@@ -139,11 +250,42 @@ sect_statistique: any;
 
   TypeChartData: ChartDataSets[] = [
     {
-      data: this.ValuesType, label: 'Nombre d incidents par type' }
+      data: this.ValuesType, label: 'Nombre d incidents par type',
+      backgroundColor: "#c45850"}
   ];
   ngOnInit() {
+    
 
   }
-
+  isShow = false;
+  isShow1 = false;
+  isShow2 = false;
+  isShow3 = false;
+  isShow4 = false;
+ 
+  toggleDisplay1() {
+    this.isShow = !this.isShow;
+    this.isShow1 = !this.isShow1;
+    this.isShow2 = false;
+    this.isShow3 = false;
+    this.isShow4 = false;}
+    toggleDisplay2() {
+      this.isShow = !this.isShow;
+      this.isShow1 = false;
+      this.isShow2 = !this.isShow2;
+       this.isShow3 = false;
+       this.isShow4 = false;}
+       toggleDisplay3() {
+        this.isShow = !this.isShow;
+        this.isShow1 = false;
+        this.isShow2 = false;
+         this.isShow3 = !this.isShow3;
+         this.isShow4 = false;}
+         toggleDisplay4() {
+          this.isShow = !this.isShow;
+          this.isShow1 = false;
+          this.isShow2 = false;
+           this.isShow3 = false;
+           this.isShow4 = !this.isShow4;}
 
 }

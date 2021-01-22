@@ -1,0 +1,118 @@
+
+<ion-header>
+  <ion-toolbar  color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button ></ion-menu-button>
+    </ion-buttons>
+    <ion-title> Detail des incidents  </ion-title>
+    <ion-button size="small" slot="end"  (click)="CloseModal()"> Fermer </ion-button>
+  </ion-toolbar>
+
+</ion-header>
+<style>
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 5px;
+    text-align: left;
+  }
+</style>
+
+<style>
+  #customers {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  #customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+  #customers tr:hover {background-color: #ddd;}
+
+  #customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color:royalblue;
+    color: white;
+  }
+</style>
+
+<ion-content >
+  <div class="container">
+    <form #f="ngForm" >
+
+      
+     <br>
+      <ion-item lines="none">
+        <ion-label style="color: steelblue;">Secteur : </ion-label>
+        <ion-select placeholder="Choisissez  un secteur" id="secteur" value="val"  (ionChange)="do2($event)"   [value]="selectedSecteur" >
+          <ion-select-option *ngFor="let val of this.ListSecteur" [value]="val.id"  multiple class="form-control">{{ val.secteur }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item *ngIf="Incident.secteur.secteur!=undefined" lines="none">
+        <ion-label  style="color: steelblue;">Type : </ion-label>
+        <ion-select placeholder="Choisissez  un type" (ionChange)="do($event)" id="type" value="valeur" [value]="selectedType" >
+          <ion-select-option  *ngFor="let valeur of this.ListType" [value]="valeur.id" multiple class="form-control" > {{valeur.type}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+  
+      
+      <!-- Need to get province automatically from the long and lat  -->
+        <div style="height: 12px;"></div>
+        <ion-label style="margin-left: 15px;margin-bottom:0px;font-size: 17px;font-weight:500;" class="form_label" >Description : </ion-label>
+        <textarea class="textareaclass" cols="40" rows="5" style="height: 100px;" type="text" name=" Description"  ngModel  [(ngModel)]="Incident.description"  [value]="description">
+          </textarea>
+      <div style="margin-right: 5%;" class="suivant_div">    
+      <ion-button  (click)="TakePicture()">
+            <ion-icon  size="large" name="add-circle-outline"></ion-icon>&nbsp;Ajouter une photo 
+      </ion-button>    
+      </div>
+
+      <div style="height: 25px;"></div>
+
+      <ion-label style="margin-left: 20px;margin-bottom:0px;margin-top: 20px;font-size: 18px;" class="form_label" >Longitude : </ion-label>
+      <span>{{Incident.longitude}}</span>
+      
+      
+      <div style="height: 25px;"></div>
+
+      <ion-label style="margin-left: 20px;margin-bottom:0px;margin-top: 20px;font-size: 18px;" class="form_label" >Latitude &nbsp;&nbsp;&nbsp;: </ion-label>
+      <span>{{Incident.latitude}}</span>
+      
+      
+      <div style="height: 25px;"></div>
+
+      <ion-label style="margin-left: 20px;margin-bottom:0px;margin-top: 20px;font-size: 18px;" class="form_label" >Province &nbsp;&nbsp;: </ion-label>
+      
+      <span>{{Incident.province.province}}</span>
+      <ion-card *ngIf="Incident.photo!=undefined">
+        <ion-card-content >
+          <ion-img [src]="Incident.photo"></ion-img>
+        </ion-card-content>
+  
+      </ion-card>
+      <br *ngIf="Incident.photo==undefined" ><br *ngIf="Incident.photo==undefined"><br *ngIf="Incident.photo==undefined">
+      
+      
+      
+      <div class="pay_div" center style="margin-right: 5%;" >
+        <ion-button (click)="addIncident()" ><ion-icon  size="default" name="checkbox-outline"></ion-icon>Modifier</ion-button>
+      </div>
+      <br>
+      
+      
+     
+       
+    </form>
+  </div>
+</ion-content>
+

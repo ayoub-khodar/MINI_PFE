@@ -1,6 +1,6 @@
 import {Secteur} from './Secteur';
-
+import {Statut} from './Statut';
 export class StatutSecteur {
-    statut: string;
+    statut: Statut;
     secteur: Secteur;
 }

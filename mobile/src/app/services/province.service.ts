@@ -12,6 +12,11 @@ export class ProvinceService {
 
     }
 
+    RetrieveProvince(lon:any ,lat: any) {
+        
+        return this.http.post(API_URL + '/Province/findProvince',{"lat":lat,"lon":lon});
+    }
+
     findprovinceById(id: number) {
         return this.http.get(API_URL + '/Province/find/' + id);
     }

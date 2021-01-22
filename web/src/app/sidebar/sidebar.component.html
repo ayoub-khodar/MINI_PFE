@@ -1,61 +1,68 @@
 <aside>
-    <div id="sidebar" class="nav-collapse ">
-      <!-- sidebar menu start-->
-      <ul class="sidebar-menu" id="nav-accordion">
-        <br>
-        <p class="centered"><a href="profile.html"><img src="../../assets/Images/logosanstexte.png" class="img-circle" width="80"></a></p>
-        <h5 class="centered">TABLIGH</h5>
-        <br><br>
-        <li class="mt active" id=1 >
-          <a data-toggle="tab" routerLink="/acceuil" routerLinkActive="active">
-            <i class="fa fa-dashboard"></i>
-            <span style="color:white;font-weight:bold; font-size :21px" >Accueil</span>
-            </a>
+  <div id="sidebar" class="nav-collapse ">
+    <!-- sidebar menu start-->
+    <ul class="sidebar-menu" id="nav-accordion">
+      <br>
+      <p class="centered"><a href="/acceuil"><img src="../../assets/Images/logosanstexte.png" class="img-circle" width="80"></a></p>
+      <h5 class="centered">TABLIGH</h5>
+      <br>
+      <li class="mt active" id=1 >
+        <a data-toggle="tab" routerLink="/acceuil" routerLinkActive="active">
+          
+          <span style="font-size :18px">Accueil</span>
+          </a>
+      </li>
+      <li class="sub-menu" id=4 *ngIf="currentRole === 'Admin'" >
+        <a data-toggle="tab" routerLink="/administration" routerLinkActive="active">
+          
+          <span style="font-size :18px">Gestion des incidents</span>
+          </a>
+      </li>
+
+      <li class="sub-menu" id=4 *ngIf="currentRole === 'Admin'" >
+        <a data-toggle="tab" routerLink="/gestion" routerLinkActive="active">
+          
+          <span style="font-size :18px">Gestion des professionnels</span>
+          </a>
+      </li>
+      <li class="sub-menu" id=4 *ngIf="currentRole === 'professionnel'" >
+        <a data-toggle="tab" routerLink="/profil" routerLinkActive="active">
+          
+          <span style="font-size :18px">Editer mon profil</span>
+          </a>
+      </li>
+      <li class="sub-menu" id=5 *ngIf="currentRole === 'professionnel'" >
+        <a data-toggle="tab" routerLink="/professionnel" routerLinkActive="active">
+          
+          <span style="font-size :18px" >Gestion de mes incidents</span>
+          </a>
         </li>
-        <li class="sub-menu" id=4 *ngIf="currentRole === 'Admin'" >
-          <a data-toggle="tab" routerLink="/administration" routerLinkActive="active">
-            <i class="fa fa-desktop"></i>
-            <span>Gestion des incidents</span>
-            </a>
-        </li>
-        <li class="sub-menu" id=4 *ngIf="currentRole === 'Admin'" >
-          <a data-toggle="tab" routerLink="/gestion" routerLinkActive="active">
-            <i class="fa fa-cogs"></i>
-            <span style="color:white;font-weight:bold; font-size :21px">Gestion des professionnels</span>
-            </a>
-        </li>
-        <li class="sub-menu" id=5 *ngIf="currentRole === 'professionnel'" >
-          <a data-toggle="tab" routerLink="/professionnel" routerLinkActive="active">
-            <i class="fa fa-book"></i>
-            <span style="color:white;font-weight:bold; font-size :21px">Gestion des incidents</span>
-            </a>
-          </li>
-        <li class="sub-menu">
-          <a data-toggle="tab">
-            <i class="fa fa-tasks"></i>
-            <span style="color:white;font-weight:bold; font-size :12px">Consultation des incidents</span>
-            </a>
-        </li>
-        <li class="sub-menu">
-          <a data-toggle="tab" routerLink="/incident">
-            <i class="fa fa-tasks"></i>
-            <span style="color:white;font-weight:bold; font-size :18px">Table</span>
-            </a>
-        </li>
-        <li class="sub-menu">
-          <a data-toggle="tab" routerLink="/map">
-            <i class="fa fa-tasks"></i>
-            <span style="color:white;font-weight:bold; font-size :18px">Map</span>
-            </a>
-        </li>
-        <li class="sub-menu">
-          <a data-toggle="tab" routerLink="/dashboard">
-            <i class="fa fa-th"></i>
-            <span style="color:white;font-weight:bold; font-size :21px">Tableau de bord</span>
-            </a>
-        </li>
-        
-      </ul>
-      <!-- sidebar menu end-->
-    </div>
-  </aside>
+      <li class="sub-menu" >
+        <a data-toggle="tab" routerLink="/incident">
+          
+          <span style="font-size :18px"  (click) = toggleDisplay() >Consultation des incidents</span>
+          </a>
+      </li>
+      <!-- <li class="sub-menu">
+        <a data-toggle="tab" routerLink="/incident">
+          
+          <span [hidden] = "!isShow" style="font-size :18px">Table</span>
+          </a>
+      </li>
+      <li class="sub-menu">
+        <a data-toggle="tab" routerLink="/map">
+          
+          <span [hidden] = "!isShow" style="font-size :18px" >Map</span>
+          </a>
+      </li> -->
+      <li class="sub-menu">
+        <a data-toggle="tab" routerLink="/dashboard">
+         
+          <span style="font-size :18px">Tableau de bord</span>
+          </a>
+      </li>
+      
+    </ul>
+    <!-- sidebar menu end-->
+  </div>
+</aside>

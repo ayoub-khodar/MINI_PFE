@@ -17,6 +17,7 @@ export class SidebarComponent implements OnInit {
   currentRole: string;
   modalRef: BsModalRef;
   comportement: string;
+  isShow = false; 
   formData: FormGroup = this.formBuilder.group({
     username: [null],
     password: [null]
@@ -30,7 +31,7 @@ export class SidebarComponent implements OnInit {
   test: string;
   currentUser: User;
   message: string;
-  IdUserChoisi: any;
+  IdUserChoisi: any; 
   constructor(private loginService: LoginService, private modalService: BsModalService,
               private formBuilder: FormBuilder , private incidentService: IncidentService) {
     this.comportement = 'Se connecter ';
@@ -59,6 +60,11 @@ export class SidebarComponent implements OnInit {
       this.test = '';
     }
   }
+
+ 
+  toggleDisplay() {
+    this.isShow = !this.isShow;}
+
   onlogin() {
     if (this.comportement == 'Se connecter ') {
       // console.log(this.currentUser);

@@ -1,24 +1,24 @@
 package com.incident.backend.service.helpers;
 
 import com.incident.backend.entity.Secteur;
-
+import com.incident.backend.entity.Etat;
 public class StatutSecteur {
-    private String statut;
+    private Etat statut;
     private Secteur secteur;
 
     public StatutSecteur() {
     }
 
-    public StatutSecteur(String statut, Secteur secteur) {
+    public StatutSecteur(Etat statut, Secteur secteur) {
         this.statut = statut;
         this.secteur = secteur;
     }
 
-    public String getStatut() {
+    public Etat getStatut() {
         return statut;
     }
 
-    public void setStatut(String statut) {
+    public void setStatut(Etat statut) {
         this.statut = statut;
     }
 

@@ -1,5 +1,11 @@
+<div class="row body">
+
+  <app-sidebar> </app-sidebar>
+</div>
+<div style="padding-left: 210px; padding-top: 100px;">
+
 <ng-template #template>
-  <div style="padding-left: 210px;">
+  <div>
   <div class="modal-header">
     <button type="button" class="close pull-right" area-label="'close" (click)="modalRef.hide()">
       <span area-hidden="true">&times;</span>
@@ -8,12 +14,12 @@
   </div>
   <div class="modal-body">
     <label>statut:</label>
-    <select   name="statut"  (change)="changeStatut($event)">
+    <select   name="statut"  (change)="changeStatut($event)" class="form-control">
       <option  [value]=null  >Selectionner un statut </option>
-      <option  *ngFor="let s of list_statut" >{{s}}</option>
+      <option  *ngFor="let s of list_statut2"  >{{s}}</option>
     </select>
     <br>
-    <button type="submit" (click)="submit()"class="btn btn-success" >valider</button>
+    <button type="submit" (click)="submit()"class="monBoutton3" >valider</button>
 
   </div>
   </div>
@@ -21,47 +27,119 @@
 
 <div class="container">
   <div style="padding-left: 210px;">
-  <button type="submit" class="monBoutton" style="display: block;margin : auto;"
-   (click)="ListerIncidentByUser()">Afficher mes incidents </button>
    <p></p>
 
-  <div class="panel panel-primary">
+  <div [hidden] = "isShow" class="panel panel-primary">
     <div class="panel-heading">
       Liste des incidents
     </div>
-    <div class="panel-body">
+    <div class="panel-body" >
       <table class="table table-condensed">
         <thead>
         <tr>
           <th scope="col" > Photo </th>
-
+          <th scope="col" > Desciption  </th>
+          <th scope="col" > Secteur </th>
+          <th scope="col" > Type </th>
+          <th scope="col" > Province </th>
           <th scope="col"> Date </th>
           <th scope="col" > Statut </th>
-          <th scope="col" > Secteur </th>
-          <th scope="col" > Province </th>
-          <th scope="col" > Type d'incident </th>
-          <th scope="col" > Desciption  </th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let item of ownIncidents">
-          <td scope="row" >
+          <td *ngIf="item.statut.etat!= 'Traité'" scope="row" >
             <img class="image" [src]="item.photo">
           </td>
+          <td *ngIf="item.statut.etat!= 'Traité'" scope="row">{{ item.description.substring(0,20) }}...</td>
+          <td *ngIf="item.statut.etat!= 'Traité'" scope="row">{{ item.secteur.secteur }}</td>
+          <td *ngIf="item.statut.etat!= 'Traité'" scope="row">{{ item.type.type }}</td>
+          <td *ngIf="item.statut.etat!= 'Traité'" scope="row">{{ item.province.province }}</td>
+          <td *ngIf="item.statut.etat!= 'Traité'" scope="row">{{ item.date.substring(0,10) +" "+ item.date.substring(11,19) }}</td>
+          <td *ngIf="item.statut.etat!= 'declare' && item.statut.etat != 'rejeté' && item.statut.etat != 'Traité'  && item.statut.id==1" style="font-weight: bold;color: red;">{{ item.statut.etat }}</td>
+          <td *ngIf="item.statut.etat!= 'declare' && item.statut.etat != 'rejeté' && item.statut.etat != 'Traité' && item.statut.id==2" style="font-weight: bold;color: #FBD72B;">{{ item.statut.etat }}</td>
+          <td *ngIf="item.statut.etat!= 'declare' && item.statut.etat != 'rejeté' && item.statut.etat != 'Traité' && item.statut.id==3" style="font-weight: bold;color: green;">{{ item.statut.etat }}</td>
+          <td *ngIf="item.statut.etat!= 'declare' && item.statut.etat != 'rejeté' && item.statut.etat != 'Traité' && item.statut.id==4" style="font-weight: bold;color: orange;">{{ item.statut.etat }}</td>
+          <td *ngIf="item.statut.etat!= 'declare' && item.statut.etat != 'rejeté' && item.statut.etat != 'Traité' && item.statut.id==5" style="font-weight: bold;color: grey;">{{ item.statut.etat }}</td>
+          <td *ngIf="item.statut.etat!= 'declare' && item.statut.etat != 'rejeté' && item.statut.etat != 'Traité' && item.statut.id==6" style="font-weight: bold;color: blue;">{{ item.statut.etat }}</td>
+          <td *ngIf="item.statut.etat!= 'declare' && item.statut.etat != 'rejeté' && item.statut.etat != 'Traité' && item.statut.id==7" style="font-weight: bold;color: cornflowerblue;">{{ item.statut.etat }}</td>
+    
+          
+          
+          
+          
 
-          <td scope="row">{{ item.date }}</td>
-          <td scope="row">{{ item.statut }}</td>
-          <td scope="row">{{ item.secteur.secteur }}</td>
-          <td scope="row">{{ item.province.province }}</td>
-          <td scope="row">{{ item.type.type }}</td>
-          <td scope="row">{{ item.description }}</td>
-
-          <button type="submit" class="edit" (click)="openModal(template,item)">Editer</button>
+          <button *ngIf="item.statut.etat!= 'Traité'" type="submit" class="edit" (click)="edit(item)" class="monBoutton1">Editer</button>
         </tr>
         </tbody>
       </table>
       </div>
+      
+    </div>
+    <div  [hidden] = "!isShow" id="map" style="flex: 1; padding: 1em;"></div>
+    <div [hidden] = "!isShow" class="card" *ngIf="Incident1" >
+      <img class="card-img-top" [src]="Incident1.photo" alt="" class="image1">
+      
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"> <label for="">Date : </label> {{Incident1.date.substring(0,10) +" "+ Incident1.date.substring(11,19)  }}</li>
+        <li class="list-group-item"><label for="">secteur : </label>{{Incident1.secteur.secteur}}</li>
+        <li class="list-group-item"><label for="">Type : </label>{{Incident1.type.type}}</li>
+        <li class="list-group-item"><label for="">Province : </label>{{Incident1.province.province}}</li>
+        <li class="list-group-item"><label for="">Longitude : </label>{{Incident1.longitude}}</li>
+        <li class="list-group-item"><label for="">Latitude : </label>{{Incident1.latitude}}</li>
+ 
+      </ul>
+      
+     
+      
     </div>
 
+    <div [hidden] = "!isShow" class="card2" *ngIf="Incident1">
+      
+      <button mat-icon-button class="button3" style="position: absolute;" >
+        <mat-icon aria-hidden="false" (click) = toggleDisplay3()
+        >arrow_back</mat-icon>
+      </button>
+
+      <div class="card-body"  *ngIf="Incident1.statut.id==1" style="font-weight: bold;color: red;" >
+        <h4 class="card-title" style="text-align: center;">{{Incident1.statut.etat}}</h4>
+      </div>
+      <div class="card-body"  *ngIf="Incident1.statut.id==2" style="font-weight: bold;color: #FBD72B;" >
+        <h4 class="card-title" style="text-align: center;">{{Incident1.statut.etat}}</h4>
+      </div>
+      <div class="card-body"  *ngIf="Incident1.statut.id==3" style="font-weight: bold;color: green;" >
+        <h4 class="card-title" style="text-align: center;">{{Incident1.statut.etat}}</h4>
+      </div>
+      <div class="card-body"  *ngIf="Incident1.statut.id==4" style="font-weight: bold;color: orange;">
+        <h4 class="card-title" style="text-align: center;">{{Incident1.statut.etat}}</h4>
+      </div>
+      <div class="card-body"  *ngIf="Incident1.statut.id==5" style="font-weight: bold;color: grey;">
+        <h4 class="card-title" style="text-align: center;">{{Incident1.statut.etat}}</h4>
+      </div>
+      <div class="card-body"  *ngIf="Incident1.statut.id==6" style="font-weight: bold;color: blue;">
+        <h4 class="card-title" style="text-align: center;">{{Incident1.statut.etat}}</h4>
+      </div>
+      <div class="card-body"  *ngIf="Incident1.statut.id==7" style="font-weight: bold;color: cornflowerblue;">
+        <h4 class="card-title" style="text-align: center;">{{Incident1.statut.etat}}</h4>
+      </div>
+      
+    <select   name="statut"  (change)="changeStatut($event)" class="form-control">
+      <option  [value]=null  >Selectionner un statut </option>
+      <option  *ngFor="let s of list_statut2"  >{{s}}</option>
+    </select>
+    
+
+    <br>
+    <button type="submit" (click)="submit()"class="monBoutton3" >valider</button>
+    <br>
+    <br>
+    <p></p>
+
+    <li class="list-group-item" *ngIf="Incident1"><label for="">Description : </label>{{Incident1.description}}</li>
+    </div>
+    
+  </div>
+
+ 
 
         

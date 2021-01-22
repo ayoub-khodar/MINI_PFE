@@ -3,10 +3,11 @@ package com.incident.backend.service.helpers;
 import com.incident.backend.entity.Province;
 import com.incident.backend.entity.Secteur;
 import com.incident.backend.entity.Type;
+import com.incident.backend.entity.Etat;
 
 public class Filter {
 
-    private String statut;
+    private Etat statut;
     private Secteur secteur;
     private Province province;
     private Type type;
@@ -14,18 +15,18 @@ public class Filter {
     public Filter() {
     }
 
-    public Filter(String statut, Secteur secteur, Province province, Type type) {
+    public Filter(Etat statut, Secteur secteur, Province province, Type type) {
         this.statut = statut;
         this.secteur = secteur;
         this.province = province;
         this.type = type;
     }
 
-    public String getStatut() {
+    public Etat getStatut() {
         return statut;
     }
 
-    public void setStatut(String statut) {
+    public void setStatut(Etat statut) {
         this.statut = statut;
     }
 
